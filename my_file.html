@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>File Upload Form</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <style>
+      nav {
+background-color: #333;
+overflow: hidden;
+}
+
+nav a {
+float: left;
+color: #f2f2f2;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+}
+
+nav a:hover {
+background-color: #ddd;
+color: black;
+}
+
+/* Container styling */
+.container {
+max-width: 500px;
+margin: 0 auto;
+text-align: center;
+}
+
+/* Form styling */
+form {
+margin-top: 30px;
+}
+
+
+button[type="submit"] {
+background-color: #4CAF50;
+color: white;
+padding: 8px 20px;
+border: none;
+border-radius: 4px;
+cursor: pointer;
+}
+
+button[type="submit"]:hover {
+background-color: #45a049;
+}
+
+/* PDF name styling */
+.pdf-name {
+margin-top: 20px;
+font-weight: bold;
+font-size: 18px;
+}
+  
+  </style>
+  </head>
+  <body>
+    <nav>
+      <a href="#">Home</a>
+      <a href="#">About</a>
+      <a href="#">Contact</a>
+    </nav>
+    <div class="container">
+      <h1>Upload your PDF file</h1>
+      <form id="upload-form" action="#" method="post" enctype="multipart/form-data">
+        <input type="file" name="pdf_file">
+        <button id="submit-button" type="submit">Upload</button>
+    </form>
+    <br><br>
+    <div id="output"></div>
+
+    
+
+      <div class="pdf-name">
+        <!-- Displays the name of the uploaded PDF file -->
+      </div>
+    </div>
+    <script>
+        // Get the form and button elements
+        const form = document.getElementById('upload-form');
+        const button = document.getElementById('submit-button');
+      
+        // Add an event listener to the form's submit event
+        form.addEventListener('submit', event => {
+          // Prevent the default form submission
+          event.preventDefault();
+      
+          // Get the file input element and the selected file
+          const fileInput = document.querySelector('input[type="file"]');
+          const file = fileInput.files[0];
+      
+          // Create a FormData object to send the file to the server
+          const formData = new FormData();
+          formData.append('pdf_file', file);
+      
+          // Send a POST request to the /predict API
+          fetch('/predict', {
+            method: 'POST',
+            body: formData
+          })
+          .then(response => response.text())
+          .then(data => {
+            // Display the output of the API in the output div
+            const outputDiv = document.getElementById('output');
+            outputDiv.textContent = data;
+          })
+          .catch(error => console.error(error));
+        });
+      </script>
+      
+  </body>
+</html>
