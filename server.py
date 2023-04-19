@@ -64,11 +64,6 @@ def predict():
 
     predicted=model.predict([cleaned_text])
 
-    print([cleaned_text])
-
-
-    
-
     # Display the extracted text
     return 'The most suitable job for: ' + filename + ' is -> ' + predicted[0]
 
